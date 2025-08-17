@@ -108,6 +108,37 @@ This project allows you to:
 
 ### 1. Clone the repository  
 ```bash
-git clone https://github.com/your-username/ai-webpage-summarizer.git
-cd ai-webpage-summarizer
+git clone https://github.com/toobashahid210/aico-tech-assessment-task.git
+cd aico-tech-assessment-task
+```
+
+### 2. Create virtual enviroment
+```bash
+python -m venv venv
+source venv/bin/activate  # Mac/Linux
+venv\Scripts\activate     # Windows
+```
+
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Install Playwright
+```bash
+playwright install
+```
+
+## 🚀 Running the Apps
+
+Add .env file to add environment variables e.g OPENAI_API_KEY
+Run both FastAPI and Streamlit apps together:
+```bash
+./run_apps.sh
+```
+FastAPI → http://localhost:8000
+Streamlit → http://localhost:8501
+
+```python
+http://localhost:8000/docs is where you can test all the endpoints
 ```
