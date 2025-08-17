@@ -69,7 +69,7 @@ def summarize(req: SummarizeRequest):
     return URL_CACHE[url]
 
 @app.post("/chat")
-async def chat(req: ChatRequest):
+def chat(req: ChatRequest):
     logger.info(f"Chat requested. Session: {req.session_id}, Question: {req.question}")
 
     try:

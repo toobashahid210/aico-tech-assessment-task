@@ -85,49 +85,21 @@ if user_input:
             err = f"Request failed: {e}"
             placeholder.markdown(err)
             st.session_state["messages"].append({"role": "assistant", "content": err})
+        if resp.status_code != 200:
+            try:
+                txt = resp.text
+            except Exception:
+                txt = f"HTTP {resp.status_code}"
+            placeholder.markdown(f"Error: {txt}")
+            st.session_state["messages"].append({"role": "assistant", "content": f"Error: {txt}"})
         else:
-            if resp.status_code != 200:
-                try:
-                    txt = resp.text
-                except Exception:
-                    txt = f"HTTP {resp.status_code}"
-                placeholder.markdown(f"Error: {txt}")
-                st.session_state["messages"].append({"role": "assistant", "content": f"Error: {txt}"})
-            else:
-                try:
-                    data = resp.json()
-                    final_text = data.get("answer", "No answer provided.")
-                    placeholder.markdown(final_text)
-                    st.session_state["messages"].append({"role": "assistant", "content": final_text})
-                except Exception as e:
-                    err = f"Error: {e}"
-                    placeholder.markdown(err)
-                    st.session_state["messages"].append({"role": "assistant", "content": err})
+            try:
+                data = resp.json()
+                final_text = data
+                placeholder.markdown(final_text)
+                st.session_state["messages"].append({"role": "assistant", "content": final_text})
+            except Exception as e:
+                err = f"Error: {e}"
+                placeholder.markdown(err)
+                st.session_state["messages"].append({"role": "assistant", "content": err})
 
-# from dotenv import load_dotenv
-# load_dotenv()
-# from langchain_community.vectorstores import FAISS
-# from langchain_openai import OpenAIEmbeddings
-
-# def test_vectorstore(path="vectorstore_db"):
-#     # init embeddings (same you used during creation)
-#     embeddings = OpenAIEmbeddings()
-
-#     # load the FAISS store
-#     vectorstore = FAISS.load_local(path, embeddings, allow_dangerous_deserialization=True)
-
-#     print("✅ Loaded FAISS vectorstore")
-
-#     # check how many docs are inside
-#     if hasattr(vectorstore, "docstore") and hasattr(vectorstore.docstore, "_dict"):
-#         docs = list(vectorstore.docstore._dict.values())
-#         print(f"📄 Total docs stored: {len(docs)}")
-#         for i, d in enumerate(docs[:5], start=1):  # show only first 5
-#             print(f"\n--- Doc {i} ---")
-#             print(d.page_content[:300])  # preview first 300 chars
-#             print("Metadata:", d.metadata)
-#     else:
-#         print("⚠️ No docs found in vectorstore")
-
-# if __name__ == "__main__":
-#     test_vectorstore("vectorstore_db")
